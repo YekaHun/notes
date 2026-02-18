@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+const PASSWORD_IS_NOT_DIGITS = c.Red + c.Bold + c.Italic + "Password must contain only 5 digits." + c.Reset
+
 func CreateOpenPassword() string {
 	passwordPath := "./PasswordStorage/password.txt"
 	file, err := os.OpenFile(passwordPath, os.O_RDWR|os.O_CREATE, 0666)
@@ -31,7 +33,7 @@ func SetPassword() string {
 		if len(password) == 5 && IsDigits(password) { //checks if password's length no more than 5 and calls IsDigits to check if it's within 0-9
 			return password
 		} else { //can be omitted
-			fmt.Println(c.Red + c.Bold + c.Italic + "\nPassword must contain only 5 digits." + c.Reset)
+			fmt.Println(PASSWORD_IS_NOT_DIGITS)
 			return "" //can be omitted
 		}
 	}
@@ -39,7 +41,7 @@ func SetPassword() string {
 func IsDigits(s string) bool { //checks if the input using digits
 	for _, ch := range s {
 		if ch < '0' || ch > '9' {
-			fmt.Println(c.Red + c.Bold + c.Italic + "\nPassword must contain only 5 digits." + c.Reset)
+			fmt.Println(PASSWORD_IS_NOT_DIGITS)
 			return false
 		}
 	}
