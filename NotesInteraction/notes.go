@@ -25,20 +25,17 @@ func GetNotes(path string) []string {
 	return lines
 }
 func ShowNotes(path string) {
-	file, _ := os.Open(path)
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	var index = 1
-	size, _ := os.Stat(path)
-	if size.Size() == 0 {
+
+	// call already made function to get the notes. 😊
+	notes := GetNotes(path)
+
+	if len(notes) == 0 { // check length of string[] to determine if there are notes.
 		fmt.Println(c.Red + c.Bold + c.Italic + "\nNo notes found." + c.Reset)
 		return
 	}
 	fmt.Println(c.Blue + c.Bold + "\nYour notes:" + c.Reset)
-	for scanner.Scan() {
-		line := scanner.Text()
-		fmt.Printf(c.Blue+"%03d - %s\n"+c.Reset, index, line)
-		index++
+	for index, line := range notes { // simple loop to print notes.
+		fmt.Printf(c.Blue+"%03d - %s\n"+c.Reset, index+1, line)
 	}
 }
 func AddNotes(path string) {
@@ -72,7 +69,7 @@ func DeleteNotes(path string) {
 		return
 	}
 	for {
-		fmt.Println(c.Blue + c.Bold + "\nIndicate which note to remove. To cancel press 0.\n" + c.Reset)
+		fmt.Printf(c.Blue+c.Bold+"\nIndicate which note to remove (%d - %d). To cancel press 0.\n\n"+c.Reset, 1, len(lines))
 		fmt.Scanln(&x)
 
 		lineToDelete, _ = strconv.Atoi(x)
