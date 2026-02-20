@@ -12,7 +12,7 @@ import (
 func main() {
 	arg := os.Args[1:]
 	if len(arg) == 0 || arg[0] == "help" || len(arg) > 1 {
-		fmt.Println("Usage: ./notestool [NameOfCollection]")
+		fmt.Println("Usage: ./notestool [NameOfCollection]") //incorrect prompt
 		return
 	}
 	path := FilesInteraction.GoOrCreateFiles(arg)
@@ -31,9 +31,9 @@ func main() {
 			if input == userPassword {                // if it matches > proceed to the menu loop
 				break //proceed to the menu loop
 			} else if attempts < 3 {
-				fmt.Println(c.Red + c.Bold + c.Italic + "\nWrong password. Try again" + c.Reset) //during 3 attemps print this message
+				fmt.Println(c.Red + c.Bold + c.Italic + "\n" + c.WRONG_PASS + c.Reset) //during 3 attemps print this message
 			} else {
-				fmt.Println(c.Red + c.Bold + c.Italic + "\nPlease, set a new password." + c.Reset) //after 3rd attempt prompt for a new psw
+				fmt.Println(c.Red + c.Bold + c.Italic + "\n" + c.NEW_PASS + c.Reset) //after 3rd attempt prompt for a new psw
 				var newPass string
 				for newPass == "" {
 					newPass = UserInteraction.SetPassword()
@@ -57,11 +57,13 @@ func main() {
 			}
 			if confirm == "1" { //if yes = proceeds to the DeleteNotes path...
 				NotesInteraction.DeleteNotes(path)
+
 				NotesInteraction.ShowNotes(path) //and shows all notes after that
 			}
 		case "4": //user wants to close application
 			fmt.Println(c.Cyan + c.Bold + "\nHAVE A NICE DAY!\n" + c.Reset)
 			return // exits application
+
 		default: // = any other input, results in the err.msg prompting to select correct input
 			fmt.Println(c.Red + c.Bold + c.Italic + "You must select 1, 2, 3 or 4" + c.Reset)
 			//an instruction for the user to help select correct input

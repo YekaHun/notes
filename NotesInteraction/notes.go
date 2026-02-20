@@ -18,7 +18,6 @@ func GetNotes(path string) []string {
 
 	var lines []string
 	scanner := bufio.NewScanner(file)
-
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
@@ -28,12 +27,11 @@ func ShowNotes(path string) {
 
 	// call already made function to get the notes. 😊
 	notes := GetNotes(path)
-
 	if len(notes) == 0 { // check length of string[] to determine if there are notes.
-		fmt.Println(c.Red + c.Bold + c.Italic + "\nNo notes found." + c.Reset)
+		fmt.Println(c.Red + c.Bold + c.Italic + "\n" + c.NO_NOTES + c.Reset)
 		return
 	}
-	fmt.Println(c.Blue + c.Bold + "\nYour notes:" + c.Reset)
+	fmt.Println(c.Blue + c.Bold + "\n" + c.YOUR_NOTES + c.Reset)
 	for index, line := range notes { // simple loop to print notes.
 		fmt.Printf(c.Blue+"%03d - %s\n"+c.Reset, index+1, line)
 	}
@@ -42,12 +40,12 @@ func AddNotes(path string) {
 	file, _ := os.OpenFile(path, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
 	defer file.Close()
 	for {
-		fmt.Println(c.Blue + c.Bold + "\nWrite your note here:" + c.Reset)
+		fmt.Println(c.Blue + c.Bold + "\n" + c.WRITE_NOTE + c.Reset)
 		reader := bufio.NewReader(os.Stdin)
 		note, _ := reader.ReadString('\n')
 		note = strings.TrimSpace(note)
 		if note == "" || strings.ContainsRune(note, 27) {
-			fmt.Println(c.Red + c.Bold + c.Italic + "\nIncorrect input, try again." + c.Reset)
+			fmt.Println(c.Red + c.Bold + c.Italic + "\n" + c.INV_INPUT + c.Reset)
 		} else {
 			size, _ := os.Stat(path)
 			if size.Size() == 0 {
@@ -65,11 +63,11 @@ func DeleteNotes(path string) {
 	lines := GetNotes(path) // Get the index to delete
 
 	if len(lines) == 0 {
-		fmt.Println(c.Red + c.Bold + c.Italic + "\nNo notes found." + c.Reset)
+		fmt.Println(c.Red + c.Bold + c.Italic + "\n" + c.NO_NOTES + c.Reset)
 		return
 	}
 	for {
-		fmt.Printf(c.Blue+c.Bold+"\nIndicate which note to remove (%d - %d). To cancel press 0.\n\n"+c.Reset, 1, len(lines))
+		fmt.Printf(c.Blue+c.Bold+"\n"+c.DELETE_NOTE_NUM+c.ENTER_VALID_NUM+"%d to %d"+c.TO_CANCEL+"\n"+c.Reset, 1, len(lines))
 		fmt.Scanln(&x)
 
 		lineToDelete, _ = strconv.Atoi(x)
@@ -78,7 +76,7 @@ func DeleteNotes(path string) {
 		}
 		if lineToDelete <= 0 || lineToDelete > len(lines) {
 			if len(lines) > 0 {
-				fmt.Printf(c.Red+c.Bold+c.Italic+"\nThe maximum number that can be entered is %d\n"+c.Reset, len(lines))
+				fmt.Printf(c.Red+c.Bold+c.Italic+c.MAX_NUM+"%d\n"+c.Reset, len(lines))
 			}
 			continue
 		}

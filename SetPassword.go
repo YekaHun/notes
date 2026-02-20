@@ -8,23 +8,28 @@ import (
 	"strings"
 )
 
-const PASSWORD_IS_NOT_DIGITS = c.Red + c.Bold + c.Italic + "Password must contain only 5 digits." + c.Reset
+const passwordPath = "./PasswordStorage/password.txt"
 
+func CheckPasswordStorage() {
+	err := os.MkdirAll("./PasswordStorage", 0755)
+	if err != nil {
+		fmt.Println(c.Red + c.Bold + c.Italic + "\n" + c.SMTHWRNG + c.Reset)
+	}
+}
 func CreateOpenPassword() string {
-	passwordPath := "./PasswordStorage/password.txt"
+	CheckPasswordStorage()
+
 	file, err := os.OpenFile(passwordPath, os.O_RDWR|os.O_CREATE, 0666)
 	if err != nil {
-		fmt.Println(c.Red+c.Bold+c.Italic+"Error.Try again"+c.Reset, err)
+		fmt.Println(c.Red+c.Bold+c.Italic+"\n"+c.SMTHWRNG+c.Reset, err)
 		return ""
 	}
 	defer file.Close()
 	return passwordPath
 }
-
 func SetPassword() string {
-	fmt.Println(c.Blue + c.Bold + "\nSet your 5 digit password\n" + c.Reset)
+	fmt.Println(c.Blue + c.Bold + "\n" + c.SET_PASS + c.Reset)
 	scanner := bufio.NewScanner(os.Stdin) //bufio package, standard input var
-
 	var password string
 	for {
 		scanner.Scan()
@@ -33,7 +38,7 @@ func SetPassword() string {
 		if len(password) == 5 && IsDigits(password) { //checks if password's length no more than 5 and calls IsDigits to check if it's within 0-9
 			return password
 		} else { //can be omitted
-			fmt.Println(PASSWORD_IS_NOT_DIGITS)
+			fmt.Println(c.Red + c.Bold + c.Italic + "\n" + c.NOT_DIGITS + c.Reset)
 			return "" //can be omitted
 		}
 	}
@@ -41,44 +46,40 @@ func SetPassword() string {
 func IsDigits(s string) bool { //checks if the input using digits
 	for _, ch := range s {
 		if ch < '0' || ch > '9' {
-			fmt.Println(PASSWORD_IS_NOT_DIGITS)
+			fmt.Println(c.Red + c.Bold + c.Italic + "\n" + c.NOT_DIGITS + c.Reset)
 			return false
 		}
 	}
 	return true
 }
-
 func SavePassword(password string) {
-	path := "./PasswordStorage/password.txt"
-	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
+	CheckPasswordStorage()
+	file, err := os.OpenFile(passwordPath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
 	if err != nil {
-		fmt.Println(c.Red + c.Bold + c.Italic + "\nFailed opening file." + c.Reset)
+		fmt.Println(c.Red + c.Bold + c.Italic + c.SMTHWRNG + c.Reset)
 		return
 	}
 	defer file.Close()
 
 	_, err = file.WriteString(password)
 	if err != nil {
-		fmt.Println(c.Red + c.Bold + c.Italic + "\nFailed saving password." + c.Reset)
+		fmt.Println(c.Red + c.Bold + c.Italic + c.SMTHWRNG + c.Reset)
 		return
 	} else {
-		fmt.Println(c.Blue + c.Bold + "\nPassword saved." + c.Reset)
+		fmt.Println(c.Blue + c.Bold + "\n" + c.PASS_SAVED + c.Reset)
 	}
 }
 
 func ReadPassword() string {
-	path := "./PasswordStorage/password.txt"
-	data, err := os.ReadFile(path)
+	data, err := os.ReadFile(passwordPath)
 	if err != nil {
 		return ""
 	}
 	return strings.TrimSpace(string(data)) //strings = package, TrimSpace = special func inside it
 }
-
 func VerifyPassword() string {
-	fmt.Print(c.Blue + c.Bold + "\nYour password > " + c.Reset)
+	fmt.Print(c.Blue + c.Bold + "\n" + c.VERY_PASS + c.Reset)
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	return strings.TrimSpace(scanner.Text())
-
 }
