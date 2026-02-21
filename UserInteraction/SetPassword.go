@@ -28,14 +28,14 @@ func CreateOpenPassword() string {
 	return passwordPath
 }
 func SetPassword() string {
-	fmt.Println(c.Blue + c.Bold + "\n" + c.SET_PASS + c.Reset)
+	fmt.Println(c.Blue + c.Bold + "\n" + c.NEW_PASS + c.Reset)
 	scanner := bufio.NewScanner(os.Stdin) //bufio package, standard input var
 	var password string
 	for {
 		scanner.Scan()
 		password = strings.TrimSpace(scanner.Text())
 
-		if len(password) == 5 && IsDigits(password) { //checks if password's length no more than 5 and calls IsDigits to check if it's within 0-9
+		if len(password) == 5 && IsDigits(password) {
 			return password
 		} else { //can be omitted
 			fmt.Println(c.Red + c.Bold + c.Italic + "\n" + c.NOT_DIGITS + c.Reset)
@@ -43,7 +43,7 @@ func SetPassword() string {
 		}
 	}
 }
-func IsDigits(s string) bool { //checks if the input using digits
+func IsDigits(s string) bool {
 	for _, ch := range s {
 		if ch < '0' || ch > '9' {
 			fmt.Println(c.Red + c.Bold + c.Italic + "\n" + c.NOT_DIGITS + c.Reset)
@@ -69,7 +69,6 @@ func SavePassword(password string) {
 		fmt.Println(c.Blue + c.Bold + "\n" + c.PASS_SAVED + c.Reset)
 	}
 }
-
 func ReadPassword() string {
 	data, err := os.ReadFile(passwordPath)
 	if err != nil {
