@@ -9,14 +9,14 @@ import (
 func GoOrCreateFiles(arg []string) string { // check that Collections folder exists, if not -> create
 	err := os.MkdirAll("./Collections", 0755)
 	if err != nil {
-		fmt.Println(c.Red + c.Bold + "\n" + c.SMTHWRNG + c.Reset)
+		fmt.Println("\n" + c.SMTHWRNG)
 		return ""
 	}
 
 	path := "./Collections/" + arg[0] + ".txt"
 	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0666)
 	if err != nil {
-		fmt.Println(c.Red + c.Bold + "\n" + c.SMTHWRNG + c.Reset)
+		fmt.Println("\n" + c.SMTHWRNG)
 		return ""
 	}
 	defer file.Close()

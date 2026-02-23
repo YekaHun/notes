@@ -3,31 +3,34 @@ package Constants //
 // How to use constants:
 // fmt.Println(CONSTANT_NAME + "Text here" + Reset) (add c. if constants not in the same root to point to the Constants package)
 
-// errors
-const NO_NOTES = "No notes found."
-const SMTHWRNG = "Error. Try again"
-const INV_INPUT = "Invalid input, try again."
+// errors/warnings RED + ITALIC
+const NO_NOTES = Red + Bold + Italic + "+\nNo notes found." + Reset
+const SMTHWRNG = Red + Bold + Italic + "\nError. Try again" + Reset
+const INV_INPUT = Red + Bold + Italic + "\nInvalid input, try again." + Reset
+const NOT_DIGITS = Red + Bold + Italic + "\nPassword must contain only 5 digits." + Reset
+const TO_DELETE = Red + Bold + Italic + "\nAre you sure you want to delete a note?" + Reset
+const WRONG_PASS = Red + Bold + Italic + "\nWrong password. Try again." + Reset
 
-// Menu & UI instractions
-const WELCOME = "WELCOME TO THE NOTE TOOL!"
-const BYE = "HAVE A NICE DAY!"
-const INSTRUCTION = "\nTo interact with the note tool, select operation by choosing a corresponding number and press Enter.\n"
-const NOT_DIGITS = "Password must contain only 5 digits."
-const MAX_NUM = "The maximum number that can be entered is "
-const ENTER_VALID_NUM = "Enter a number from "
-const WRITE_NOTE = "Write your note here:"
-const SELECT_OP = "You selected > "
-const YOUR_NOTES = "YOUR CURRENT NOTES"
-const TO_DELETE = "Are you sure you want to delete a note?"
-const INDICATE_REMOVAL = "Indicate which note to remove. "
-const TO_CANCEL = "To cancel press 0."
-const DELETED_NOTE = "Deleted note # "
+// Menu MAGENTA + BLUE (no bold)
+const WELCOME = Magenta + Bold + "\nWELCOME TO THE NOTE TOOL!" + Reset
+const BYE = Magenta + Bold + "\nHAVE A NICE DAY!\n" + Reset
+const INSTRUCTION = Magenta + Bold + "\nTo interact with the note tool, select operation by choosing a corresponding number and press Enter." + Reset
 
-// password
-const VERY_PASS = "Insert your password > "
-const WRONG_PASS = "Wrong password. Try again."
-const PASS_SAVED = "Password saved."
-const NEW_PASS = "Create a new 5 digit password."
+// & UI instractions BLUE + BOLD
+const WRITE_NOTE = Blue + Bold + "\nWRITE YOUR NOTE HERE:" + Reset
+const SELECT_OP = Blue + Bold + "\nYOUR SELECTION > " + Reset
+const YOUR_NOTES = Blue + Bold + "\nYOUR CURRENT NOTES" + Reset
+const MENUCONTENT = Blue + "Show all notes > 1\nAdd a new note > 2\nDelete a note > 3\nExit > 4\n " + Reset
+const MAX_NUM = Red + Bold + Italic + "\nThe maximum number is \n" + Reset
+const INDICATE_REMOVAL = Blue + Bold + Italic + "\nIndicate which note to remove. " + Reset
+const TO_CANCEL = Blue + Bold + " To cancel press 0.\n" + Reset
+const DELETED_NOTE = Blue + Bold + Italic + "\nDeleted note # " + Reset
+const ENTER_VALID_NUM = Blue + Bold + Italic + "\nEnter a number from " + Reset
+
+// password GREEN
+const NEW_PASS = Green + "\nCreate a new 5 digit password >\n" + Reset
+const VERY_PASS = Green + "\nInsert your password > \n" + Reset
+const PASS_SAVED = Green + "\nPassword saved.\n" + Reset
 
 // Sys.assets
-const passwordPath = "./PasswordStorage/password.txt"
+const passwordPath = "./PasswordStorage/password.txt" + Reset
