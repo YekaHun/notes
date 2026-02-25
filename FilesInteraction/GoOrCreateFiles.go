@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func GoOrCreateFiles(arg []string) string { // check that Collections folder exists, if not -> create
+func GoOrCreateFiles(arg []string) string { 
 	err := os.MkdirAll("./Collections", 0755)
 	if err != nil {
 		fmt.Println("\n" + c.SMTHWRNG)
