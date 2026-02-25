@@ -10,7 +10,7 @@ import (
 
 // 1. user interaction
 func GetInput() string {
-	scanner := bufio.NewScanner(os.Stdin) //bufio package, standard input var
+	scanner := bufio.NewScanner(os.Stdin) 
 	var userInput string
 	for {
 		scanner.Scan()
