@@ -26,12 +26,12 @@ func GetNotes(path string) []string {
 }
 
 func ShowNotes(path string) {
-	// call already made function to get the notes. 😊
 	notes := GetNotes(path)
 	if len(notes) == 0 { // check length of string[] to determine if there are notes.
 		fmt.Println(c.NO_NOTES)
 		return
 	}
+
 	fmt.Println(c.YOUR_NOTES)
 	for index, line := range notes { // simple loop to print notes. < Thanks!
 		fmt.Printf("%03d - %s\n", index+1, line)
@@ -60,49 +60,63 @@ func AddNotes(path string) {
 		}
 	}
 }
+func DeleteOrNot() string {
+	fmt.Println(c.TO_DELETE)
+	fmt.Println(c.Red + c.Bold + c.Italic + "Yes > 1\nNo > 2" + c.Reset)
+	fmt.Print(c.SELECT_OP)
+	return ui.GetInput()
+}
 
 func DeleteNotes(path string) {
-	var lineToDelete int    // get slice of lines
-	lines := GetNotes(path) // Get the index to delete
-
+	lines := GetNotes(path)
 	if len(lines) == 0 {
 		fmt.Println(c.NO_NOTES)
 		return
 	}
+
 	for {
-		fmt.Printf(c.INDICATE_REMOVAL+c.ENTER_VALID_NUM+c.Blue+c.Bold+c.Italic+"%d to %d."+c.Reset+c.TO_CANCEL, 1, len(lines))
-		fmt.Print(c.SELECT_OP)
-
-		del := ui.GetInput()
-		lineToDelete, _ = strconv.Atoi(del)
-
-		if lineToDelete == 0 { // Exits if user wants to cancel
+		confirm := DeleteOrNot()
+		if confirm == "2" {
 			return
+		} else if confirm == "1" {
+			break
+		} else {
+			fmt.Println(c.ENTER_VALID_NUM + c.Blue + c.Italic + c.Bold + "1 to 2" + c.Reset)
 		}
-		if lineToDelete < 0 || lineToDelete > len(lines) {
-			if len(lines) > 0 {
-				fmt.Printf(c.MAX_NUM+c.ENTER_VALID_NUM+c.Blue+c.Bold+c.Italic+"%d"+c.Reset, len(lines))
-			}
+	}
+
+	for {
+		var lineToDelete int
+		fmt.Printf(c.INDICATE_REMOVAL+c.ENTER_VALID_NUM+c.Blue+c.Bold+c.Italic+"%d to %d. "+c.TO_CANCEL+c.Reset, 1, len(lines))
+		fmt.Print(c.SELECT_OP)
+		del := ui.GetInput()
+
+		lineToDelete, err := strconv.Atoi(del)
+		if err != nil || lineToDelete < 1 || lineToDelete > len(lines) {
+			fmt.Printf(c.INV_INPUT)
 			continue
 		}
-		lineToDelete--                                      // shifting to zero index
-		if lineToDelete >= 0 && lineToDelete < len(lines) { //number of note to delete within the existing amount
-			fmt.Printf(c.DELETED_NOTE+c.Blue+c.Bold+c.Italic+"%d\n"+c.Reset, lineToDelete+1) //added indication which note was removed
 
-			lines = append(lines[:lineToDelete], lines[lineToDelete+1:]...) //appends notes before and after the one to delete
-
-			output := ""                 //rebuilds the output string
-			for _, line := range lines { //Loops through the remaining lines,
-				output += line + "\n" //concatenating them into the output string, adding a newline after each line
-			}
-			if len(output) > 0 { // Removes the last newline if output is not empty
-				output = output[:len(output)-1]
-			}
-			err := os.WriteFile(path, []byte(output), 0644) //writes down new notes order
-			if err != nil {
-				panic(err)
-			}
-			break
+		if lineToDelete == 0 {
+			return
 		}
+
+		lineToDelete--
+		fmt.Printf(c.DELETED_NOTE+c.Blue+c.Bold+c.Italic+"%d\n"+c.Reset, lineToDelete+1)
+		lines = append(lines[:lineToDelete], lines[lineToDelete+1:]...)
+
+		output := ""
+		for _, line := range lines {
+			output += line + "\n"
+		}
+		if len(output) > 0 {
+			output = output[:len(output)-1]
+		}
+
+		if err := os.WriteFile(path, []byte(output), 0644); err != nil {
+			panic(err)
+		}
+		ShowNotes(path)
+		break
 	}
 }

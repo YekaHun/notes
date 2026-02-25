@@ -28,17 +28,3 @@ func PromptUser() string {
 	fmt.Print(c.SELECT_OP)
 	return GetInput()
 }
-
-func DeleteOrNot() string {
-	fmt.Println(c.TO_DELETE)
-	fmt.Println(c.Red + c.Bold + c.Italic + "Yes > 1\nNo > 2" + c.Reset)
-	return GetInput()
-}
-
-/*
-	var output string
-	fmt.Print(c.Blue + c.Bold + "\n" + c.SELECT_OP + c.Reset)
-	fmt.Scanln(&output)
-	return output
-
-*/

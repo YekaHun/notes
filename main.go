@@ -20,6 +20,6 @@ func main() {
 	}
 
 	path := fi.GoOrCreateFiles(arg)
-	ui.PasswordInteraction() // userpass should use a helper for PW creation and storing
-	mi.Menu(path)            //calls menu func with loop from the MI
+	ui.PasswordInteraction()
+	mi.Menu(path)
 }

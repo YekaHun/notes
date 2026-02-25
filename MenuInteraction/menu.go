@@ -16,18 +16,8 @@ func Menu(path string) {
 		case "2":
 			ni.AddNotes(path) //reads instructions from the given path etc
 		case "3":
-			for {
-				confirm := ui.DeleteOrNot() //confirms if usesr wants to delete a note
-				if confirm == "1" {         //if its 1 = yes > proceeds to the DeleteNotes path...
-					ni.DeleteNotes(path)
-					ni.ShowNotes(path) //and shows all notes after that
-					break
-				} else if confirm == "2" { // no need to delete notes, break the loop
-					break
-				} else {
-					fmt.Println(c.ENTER_VALID_NUM + c.Blue + c.Italic + c.Bold + "1 to 2" + c.Reset) //ouputs helping msg
-				}
-			}
+			ni.DeleteNotes(path)
+			//ni.ShowNotes(path)
 		case "4": //user wants to close application
 			fmt.Println(c.BYE)
 			return // exits application
